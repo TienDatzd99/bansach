@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+@layer base {
+  * {
+    @apply box-border;
+  }
+  
+  body {
+    @apply m-0 overflow-x-hidden bg-gray-50 text-gray-800;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
+  button {
+    @apply outline-none;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  
+  a {
+    @apply no-underline transition-colors duration-300;
+    color: inherit;
+  }
+}
+
+/* Custom components */
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-5 w-full;
+  }
+  
+  /* Selection color */
+  ::selection {
+    @apply bg-primary text-white;
+  }
+  
+  ::-moz-selection {
+    @apply bg-primary text-white;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-3;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gradient-to-b from-primary to-primary-dark rounded-md;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gradient-to-b from-primary-dark to-primary;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent;
+  }
+  
+  .btn-gradient {
+    @apply bg-gradient-to-r from-primary to-primary-dark;
+  }
+  
+  .shadow-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shadow-card-hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+}
