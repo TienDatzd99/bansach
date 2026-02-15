@@ -1,13 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { removeFromCart } from '../store/slices/cartSlice';
+import { selectCartItems, selectCartTotalItems, selectCartTotalPrice } from '../store/slices/selectors';
 import './CartDropdown.css';
 
 const CartDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { cart, removeFromCart, getTotalPrice, getTotalItems } = useCart();
+  
+  // Sử dụng Redux
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector(selectCartItems);
+  const totalItems = useAppSelector(selectCartTotalItems);
+  const totalPrice = useAppSelector(selectCartTotalPrice);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -35,17 +42,21 @@ const CartDropdown: React.FC = () => {
     navigate('/checkout');
   };
 
+  const handleRemoveFromCart = (id: number) => {
+    dispatch(removeFromCart(id));
+  };
+
   return (
     <div className="cart-dropdown-wrapper" ref={dropdownRef}>
       <div 
-        className="cart-toggle"
+        className="cart-toggle rounded-b-full"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="cart-icon-box">
-          <i className="cart-icon">🛒</i>
-          {getTotalItems() > 0 && (
+         <i className="fas fa-shopping-cart" style={{ fontSize: '24px', color: 'white' }}></i>
+          {totalItems > 0 && (
             <span className="cart-count">
-              <span className="count-number">{getTotalItems()}</span>
+              <span className="count-number">{totalItems}</span>
             </span>
           )}
         </div>
@@ -99,7 +110,7 @@ const CartDropdown: React.FC = () => {
                               </div>
                             </div>
                             <div className="item-remove">
-                              <button onClick={() => removeFromCart(item.id)}>
+                              <button onClick={() => handleRemoveFromCart(item.id)}>
                                 <i className="remove-icon">✕</i>
                               </button>
                             </div>
@@ -117,7 +128,7 @@ const CartDropdown: React.FC = () => {
                     <tbody>
                       <tr>
                         <td className="total-label">TỔNG TIỀN:</td>
-                        <td className="total-amount">{formatPrice(getTotalPrice())}₫</td>
+                        <td className="total-amount">{formatPrice(totalPrice)}₫</td>
                       </tr>
                       <tr>
                         <td>
